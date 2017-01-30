@@ -48,7 +48,14 @@ void setup() {
 void draw(){
 
   // Clear background
-  background(0);
+  background(255);
+  
+  // Trail effect! Try it!! 
+  // 1. Comment "Background" line
+  // 2. Uncomment next three lines
+  // fill(255,150);               // Select a white fill color with transparency
+  // noStroke();                  // Set no stroke
+  // rect(0,0,width,height);      // Draw a rectangle over the whole canvas
   
   // Update & Display our circles  
   for (int i = 0; i < circles.size(); i++) {
@@ -58,8 +65,8 @@ void draw(){
   
   }
   
-  // Print framerate on screen (check your limits!)
-  fill(255);
+  // Print framerate on screen (check your computer limits!)
+  fill(0);
   textSize(20);
   text(frameRate, 15, 25);
   

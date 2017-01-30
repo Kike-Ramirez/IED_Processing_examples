@@ -38,9 +38,9 @@ void draw(){
   
   
   // Draw ellipses using a "for" loop
-  // i : float var chosen to control for loop
-  // i < width: condition to continue the for loop. If FALSE it stops.
-  // i += step: Increment of control variable.
+  // i :          Float variable chosen (by ourselves) to control for loop
+  // i < width:   Condition to continue the for loop. If FALSE it stops.
+  // i += step:   Increment of control variable.
   for (float i = 0; i < width; i += step) {
   
     // Draw a circle of 'step' diameter at position (i, height/2)
@@ -48,6 +48,6 @@ void draw(){
   
   }
   
-  // Increment step
-  // step = width/2 * pow(sin(millis() / 1000.0),2);
+  // Animate it!! Uncomment next line to set a sinusoidal variable step
+  // step = 20 * ( 1.5 + sin(millis() / 1000.0));
 }

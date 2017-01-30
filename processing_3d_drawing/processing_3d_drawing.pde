@@ -35,7 +35,7 @@ void draw(){
   background(0);
   
   // Map mouseY to zoom
-  float zoom = map(mouseY, 0, height, -400, 400);
+  float zoom = map(mouseY, 0, height, -600, 600);
   
   // Translate to window center and zoom
   translate(width/2, height/2, zoom);
@@ -46,7 +46,7 @@ void draw(){
   // Save actual axis
   pushMatrix();
   // Rotate around Y axis
-  rotateY(millis()/1000.0);
+  rotateY(millis()/8000.0);
   // Draw a sphere of radius 300
   sphere(300);
   // Go back to previous saved axis
@@ -60,7 +60,7 @@ void draw(){
   // Rotate around X axis
   rotateX(millis()/3000.0);
   // Rotate around Z axis
-  rotateZ(millis()/2000.0);
+  rotateZ(millis()/4000.0);
   // Draw a box
   box(100, 120, 80);
   // Go back to previous saved axis

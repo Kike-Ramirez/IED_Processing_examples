@@ -31,7 +31,7 @@ int numClocks = 200;
 void setup() {
 
   // Set window size
-  size(1024, 768, P3D);
+  size(600, 400, P3D);
   
   // Initialize peasyCam
    cam = new PeasyCam(this, 0);
@@ -52,7 +52,7 @@ void setup() {
     PVector position = new PVector(random(-dispersion, dispersion), random(-dispersion, dispersion), random(-dispersion, dispersion));    
     
     // Create a random gray color for Clock
-    color color_i = color(random(50, 255));
+    color color_i = color(random(0, 200));
     
     // Create a random radio for Clock
     int radio = int(random(50, 200));
@@ -69,7 +69,7 @@ void setup() {
 void draw(){
 
   // Clear background
-  background(0);
+  background(255);
   
   // Save actual axis
   pushMatrix();

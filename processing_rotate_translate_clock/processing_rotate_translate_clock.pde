@@ -29,7 +29,7 @@ void setup() {
   PVector position = new PVector(width/2, height/2);
 
   // Initialize clock object
-  clock = new Clock(position, color(255), height/2);
+  clock = new Clock(position, color(0), height/2);
   
  
 }
@@ -38,7 +38,7 @@ void setup() {
 void draw(){
 
   // Clear background
-  background(0);
+  background(255);
   
   // Update & Display our clock
   clock.update();

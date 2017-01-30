@@ -80,8 +80,15 @@ class Clock {
     noFill();
     stroke(colorClock);
     ellipse(0, 0, 2 * radio, 2 * radio);
+
+    // Draw the internal circle
+    noStroke();
+    fill(colorClock);
+    ellipse(0, 0, 0.05 * radio, 0.05 * radio);
     
     // Draw hour markers    
+    noFill();
+    stroke(colorClock);
     for (int i = 0; i < 12; i++) {
     
       pushMatrix();

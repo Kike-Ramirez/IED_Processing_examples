@@ -14,16 +14,19 @@ Subject: OOP - Classes & Objects
 
 */
 
+// Define an object named "circle" of class "Circle"
 Circle circle;
+
 
 void setup() {
 
   // Set window size
-  size(1024, 768);
+  size(600, 400);
   
   // Create a variable position to initialize Circle
   PVector position = new PVector(width/2, height/2);
 
+  // Create the object "circle"
   circle = new Circle(position);
   
 }
@@ -32,7 +35,14 @@ void setup() {
 void draw(){
 
   // Clear background
-  background(0);
+  background(255);
+  
+  // Trail effect! Try it!! 
+  // 1. Comment "Background" line
+  // 2. Uncomment next three lines
+  // fill(255,150);
+  // noStroke();
+  // rect(0,0,width,height);
   
   // Update & Display our circle. Easy!!
   circle.update();

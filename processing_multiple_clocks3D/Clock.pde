@@ -26,13 +26,16 @@ class Clock {
   float hours;
   float minutes;
   float seconds;
-  float speedRotate;
+  float speedRotateX;
+  float speedRotateY;
+  float speedRotateZ;
+  float maxRotation, minRotation;
   
   // Class constructor
   Clock(PVector initPosition, color colorClock_, int radio_) {
   
     // Copy (get) initial position
-    position = initPosition.get();
+    position = initPosition.copy();
     
     // Set a random full saturated & bright color for our circle 
     colorClock = colorClock_;
@@ -45,8 +48,13 @@ class Clock {
     minutes = 0;
     seconds = 0;
     
+    maxRotation = 0.001;
+    minRotation = 0.00001;
+    
     // Rotation speed (the biggest, the slowest)
-    speedRotate = random(1000, 5000);
+    speedRotateX = random(minRotation, maxRotation);
+    speedRotateY = random(minRotation, maxRotation);
+    speedRotateZ = random(minRotation, maxRotation);
     
   }
   
@@ -76,7 +84,9 @@ class Clock {
     translate(position.x, position.y, position.z);
     
     // Rotate acording to rotation speed
-    rotateY(millis()/speedRotate);
+    rotateX(millis() * speedRotateX);
+    rotateY(millis() * speedRotateY);
+    rotateZ(millis() * speedRotateZ);
     
     
     // Draw the external circle
@@ -84,7 +94,15 @@ class Clock {
     stroke(colorClock);
     ellipse(0, 0, 2 * radio, 2 * radio);
     
+    // Draw the internal circle
+    noStroke();
+    fill(colorClock);
+    ellipse(0, 0, 0.05 * radio, 0.05 * radio);
+    
     // Draw markers    
+    noFill();
+    stroke(colorClock);
+    
     for (int i = 0; i < 12; i++) {
     
       pushMatrix();
