@@ -32,10 +32,10 @@ void setup() {
 void draw(){
 
   // Clear background
-  background(0);
+  background(255);
   
   // Map mouseY to zoom
-  float zoom = map(mouseY, 0, height, -600, 600);
+  float zoom = map(mouseY, 0, height, -350, 600);
   
   // Translate to window center and zoom
   translate(width/2, height/2, zoom);
@@ -43,6 +43,7 @@ void draw(){
   // DRAW SPHERE
   // Don't draw planes
   noFill();
+  stroke(0);
   // Save actual axis
   pushMatrix();
   // Rotate around Y axis
@@ -55,6 +56,7 @@ void draw(){
   // DRAW RECTANGLE
   // fill planes in red
   fill(255, 0, 0);
+  stroke(200, 0, 0);
   // Save actual axis
   pushMatrix();
   // Rotate around X axis
