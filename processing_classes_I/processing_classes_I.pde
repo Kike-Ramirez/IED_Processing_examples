@@ -34,7 +34,7 @@ void draw(){
   // Clear background
   background(0);
   
-  // Update & Display our circle
+  // Update & Display our circle. Easy!!
   circle.update();
   circle.display();
   

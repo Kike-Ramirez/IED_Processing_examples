@@ -14,8 +14,11 @@ Subject: OOP - Classes & Objects (II)
 
 */
 
+// List of object of class "Circle"
 ArrayList<Circle> circles;
-int numCircles = 500;
+
+// Number of circles in the sketch. Try to change it!
+int numCircles = 200;
 
 void setup() {
 
@@ -23,15 +26,18 @@ void setup() {
   size(1024, 768);
   
   // Set frameRate
-  frameRate(25);
+  frameRate(30);
   
   // Create a variable position to initialize Circle
   PVector position = new PVector(width/2, height/2);
 
+  // We create an (empty!) list of objects of class "Circle"
   circles = new ArrayList<Circle>();
   
+  // We add 'numCircles' objects of class "Circle" to the list
   for (int i = 0; i < numCircles; i++) {
   
+    // We create a new Circle object and add it to 'circles' arrayList
     circles.add(new Circle(position));
   
   }
@@ -52,7 +58,7 @@ void draw(){
   
   }
   
-  // Print framerate on screen
+  // Print framerate on screen (check your limits!)
   fill(255);
   textSize(20);
   text(frameRate, 15, 25);

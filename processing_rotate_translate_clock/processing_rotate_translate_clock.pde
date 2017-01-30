@@ -14,6 +14,7 @@ Subject: Rotate & Translate - Clock
 
 */
 
+// We create an object "clock" of class "Clock"
 Clock clock;
 
 void setup() {

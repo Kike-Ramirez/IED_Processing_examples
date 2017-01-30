@@ -27,18 +27,19 @@ class Clock {
   float minutes;
   float seconds;
   
-  // Class constructor
+  // Class constructor. Initial position, color and radio are passed as arguments.
   Clock(PVector initPosition, color colorClock_, int radio_) {
   
-    // Copy (get) initial position
-    position = initPosition.get();
+    // Copy initial position
+    position = initPosition.copy();
     
-    // Set a random full saturated & bright color for our circle 
+    // Set colorClock according to passed parameter colorClock_ 
     colorClock = colorClock_;
     
-    // Set a random diameter
+    // Set radio according to passed parameter radio_
     radio = radio_;
 
+    // Give 0 value to other parameters
     hours = 0;
     minutes = 0;
     seconds = 0;
@@ -49,9 +50,16 @@ class Clock {
   // Update parameters of class
   void update() {
   
+    // Get number of hours from operative system
     hours = hour();
+    
+    // If you receive a 24h value, get 12h value.
     if (hours > 12) hours -= 12;
+    
+    // Get number of minutes from operative system
     minutes = minute();
+
+    // Get number of seconds from operative system
     seconds = second();
   
   }
@@ -62,6 +70,7 @@ class Clock {
     // Fill with selected color
     fill(colorClock);
 
+    // Set stroke to 1 pixel
     strokeWeight(1);
     
     // Translate to clock position
@@ -72,7 +81,7 @@ class Clock {
     stroke(colorClock);
     ellipse(0, 0, 2 * radio, 2 * radio);
     
-    // Draw markers    
+    // Draw hour markers    
     for (int i = 0; i < 12; i++) {
     
       pushMatrix();

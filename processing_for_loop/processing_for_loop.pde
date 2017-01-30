@@ -37,14 +37,17 @@ void draw(){
   background(0);
   
   
-  // Draw ellipses with a "for" loop
-  for (int i = 0; i < width; i += step) {
+  // Draw ellipses using a "for" loop
+  // i : float var chosen to control for loop
+  // i < width: condition to continue the for loop. If FALSE it stops.
+  // i += step: Increment of control variable.
+  for (float i = 0; i < width; i += step) {
   
+    // Draw a circle of 'step' diameter at position (i, height/2)
     ellipse(i, height/2, step, step);
   
   }
   
   // Increment step
-  // step = width/2 * abs(sin(millis() / 1000.0));
-  
+  // step = width/2 * pow(sin(millis() / 1000.0),2);
 }
