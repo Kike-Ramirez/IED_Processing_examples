@@ -41,7 +41,7 @@ void draw(){
   background(255);
   
   // Animate it!! Uncomment next line to set a sinusoidal variable step
-  step = width/10 * ( 1 + 9 * pow( sin(millis() / 20000.0), 2));  
+  step = width/10 * ( 1 + 9 * (0.5 + 0.5 * sin(millis() / 5000.0)));  
   
   // Draw ellipses using a "for" loop
   // i :          Float variable chosen (by ourselves) to control for loop
