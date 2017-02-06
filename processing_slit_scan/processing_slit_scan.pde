@@ -8,7 +8,7 @@ PROCESSING
 
 Author: Kike Ramírez
 
-Date: 5/2/2017
+Date: 6/2/2017
 
 Subject: SlitScan effect Implementation
 
@@ -26,12 +26,13 @@ import processing.video.*;
 // myMovie is an object of class "Movie", it reads video file and prepares every frame for processing.
 Movie myMovie;
 
+// myCanvas is an object of class "PGraphics". It allows us to render in a different canvas.
 PGraphics myCanvas;
 
 // Variables to store movie width and height
 int movieWidth, movieHeight;
 
-// Step to generate matrix points and its limits.
+// index for line position and maximum width for image processed
 int lineIndex, movieLength;
 
 
@@ -39,28 +40,34 @@ int lineIndex, movieLength;
 void setup() {
   
   // We select a window size to fit 2 images
-  size(1280, 720);
+  size(640, 720);
 
-  // Set capture's width and height
-  movieWidth = 1280;
-  movieHeight = 720;
+  // Set movie's width and height
+  movieWidth = 640;
+  movieHeight = 360;
   
-  myMovie = new Movie(this, "sampleVideo.mp4");
+  // Initialize movie from file
+  myMovie = new Movie(this, "transit.mov");
   
-  // Initialize step value and its limits
+  // Initialize line index and movie length
   lineIndex = 0;
-  myMovie.frameRate(29);
-  movieLength = int( myMovie.duration() * 29.0 );
+  movieLength = 371 ; // 371 Frames
 
+  // We play our video
   myMovie.play();
   
-  println(movieLength);
-
-  myCanvas = createGraphics(movieWidth, int( myMovie.duration() * 29.0 ));
+  // We initialize a canvas with the same height than video and its width is video framerate * video duration
+  myCanvas = createGraphics(movieLength, movieHeight);
   
+  // Start drawing in myCanvas
   myCanvas.beginDraw();
+  
+  // Set a black background for my Canvas
   myCanvas.background(0);
+  
+  // Finish drawing in myCanvas
   myCanvas.endDraw();
+
 
 
   
@@ -68,51 +75,66 @@ void setup() {
 
 void draw() {
 
-  // We set a white background
+  // We set a black background
   background(0);
   
   // We display sample Image in the left half of the window
-  image(myMovie, 5, 5, movieWidth*0.4, movieHeight*0.4);
+  image(myMovie, 5, 5, movieWidth*0.9, movieHeight*0.9);
   
   // We set black fill and no stroke for drawing
   noFill();
   stroke(255,0,0);
-  rect(movieWidth*0.4/2 + 5 - 1, 5, 2, movieHeight*0.4); 
+  rect(movieWidth*0.9/2 + 5 - 1, 5, 2, movieHeight*0.9); 
   
+  // We declare a line "image" copied from actual video frame (center vertical line)
   PImage line = myMovie.get(movieWidth/2, 0, 1, movieHeight);
   
+  // Start drawing in myCanvas
   myCanvas.beginDraw();
+  
+  // Draw the copied line from video to myCanvas
   myCanvas.image(line, lineIndex, 0);
+  
+  // Finish drawing in myCanvas
   myCanvas.endDraw();
   
-  image(myCanvas, 5, height/2, myCanvas.width * 0.4, myCanvas.height * 0.4);
   
-  lineIndex++;
+  // Display myCanvas in position 5, height/2
+  image(myCanvas, 5, height/2);
   
-  // Instructions are displayed in window
-  drawInstructions();
+  // Draw a white rectangle to border image
+  stroke(255);
+  noFill();
+  rect(5, height/2, movieLength, movieHeight);
+  
+  // Set red stroke and no fill
+  stroke(255,0,0);
+  noFill();
+  
+  // Draw a red line from video line to image line
+  line(movieWidth*0.9/2 + 5 - 1, 5 + movieHeight*0.9, lineIndex + 5, movieHeight);
+  
+  // Draw a rectangle to remark where the line is being drawn
+  rect(lineIndex + 5, movieHeight, 2, movieHeight); 
+  
+  
+  // If we have reached end of the video
+  if (lineIndex == movieLength) {
+  
+    // Save image result in data folder
+    myCanvas.save("data/ResultSlitScan.jpg");
+    
+    // Leave program
+    exit();
+  }
 
+  
 }
-
-
-// Function to draw instructions in window
-void drawInstructions() {
-
-  // Set white color
-  fill(255);
-  // Set text size (check also textFont)
-  textSize(14);
-  // Draw instructions in screen");
-  text("Press <+>/<-> to change step size.", 10, 20);
-  text("Press <S> to save image file.", 10, 40);
-  text("Step: " + int(2), 10, 60);
-
-  text("Press <Q> to quit.", 10, height - 20);
-
-}
-
 
 // Called every time a new frame is available to read
 void movieEvent(Movie m) {
+
+  lineIndex++;
   m.read();
+
 }
