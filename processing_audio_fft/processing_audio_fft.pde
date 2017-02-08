@@ -10,10 +10,7 @@ Author: Kike Ramírez
 
 Date: 8/2/2017
 
-Subject: Audio Amplitude
-
-For more information about Processing sound library, please check:
-https://processing.org/reference/libraries/sound/
+Subject: Audio AmplitudeFFT
 
 
 For more information about Minim and additional features, 
@@ -65,20 +62,22 @@ void setup()
 
 void draw()
 {
-  background(0);
+  background(255);
   stroke(255);
   
   // perform a forward FFT on the samples in jingle's mix buffer,
   // which contains the mix of both the left and right channels of the file
   fft.forward( jingle.mix );
   
-  for(int i = 0; i < fft.specSize(); i++)
+  float step = map(mouseX, 0, width, 1, 100);
+  
+  for(int i = 0; i < fft.specSize(); i += step)
   {
     // draw the line for frequency band i, scaling it up a bit so we can see it
     
     float hue = map(i, 0, fft.specSize(), 0, 120);
-    stroke(hue, 255, 255);
-    noFill();
-    line( i, height, i, height - fft.getBand(i)*8 );
+    fill(hue, 255, 255);
+    stroke(0);
+    rect( i, height - fft.getBand(i)*8 , step, fft.getBand(i)*8);
   }
 }
