@@ -8,7 +8,7 @@ PROCESSING
 
 Author: Kike Ramírez
 
-Date: 6/2/2017
+Date: 8/2/2017
 
 Subject: SlitScan effect Implementation
 
@@ -26,13 +26,16 @@ import processing.video.*;
 // myMovie is an object of class "Movie", it reads video file and prepares every frame for processing.
 Movie myMovie;
 
-// myCanvas is an object of class "PGraphics". It allows us to render in a different canvas.
+// Create a PGraphics object to draw in it and save it later
 PGraphics myCanvas;
 
 // Variables to store movie width and height
 int movieWidth, movieHeight;
 
-// index for line position and maximum width for image processed
+// Variable for storing frameRate selected
+float fRate = 25.0;
+
+// Step to generate matrix points and its limits.
 int lineIndex, movieLength;
 
 
@@ -40,101 +43,82 @@ int lineIndex, movieLength;
 void setup() {
   
   // We select a window size to fit 2 images
-  size(640, 720);
+  size(1280, 720);
+  
+  frameRate(fRate);
 
   // Set movie's width and height
-  movieWidth = 640;
-  movieHeight = 360;
+  movieWidth = 1280;
+  movieHeight = 720;
   
-  // Initialize movie from file
-  myMovie = new Movie(this, "transit.mov");
+  // Load movie into "myMovie"
+  myMovie = new Movie(this, "sampleVideo.mp4");
   
-  // Initialize line index and movie length
+  // Initialize lineIndex
   lineIndex = 0;
-  movieLength = 371 ; // 371 Frames
+  
+  // Calculate the width neccesary for storing the image
+  movieLength = int( myMovie.duration() * fRate );
 
   // We play our video
   myMovie.play();
   
-  // We initialize a canvas with the same height than video and its width is video framerate * video duration
-  myCanvas = createGraphics(movieLength, movieHeight);
+  // Create a PGraphics object with enough resolution to save result image
+  myCanvas = createGraphics(int( myMovie.duration() * fRate ), movieHeight );
   
-  // Start drawing in myCanvas
+  // We set "myCanvas" to have a black background
   myCanvas.beginDraw();
-  
-  // Set a black background for my Canvas
-  myCanvas.background(0);
-  
-  // Finish drawing in myCanvas
+  myCanvas.background(100);
   myCanvas.endDraw();
-
-
-
-  
+ 
 }
 
 void draw() {
 
-  // We set a black background
+  // We set a white background
   background(0);
   
   // We display sample Image in the left half of the window
-  image(myMovie, 5, 5, movieWidth*0.9, movieHeight*0.9);
+  image(myMovie, 5, 5, movieWidth*0.4, movieHeight*0.4);
   
   // We set black fill and no stroke for drawing
   noFill();
   stroke(255,0,0);
-  rect(movieWidth*0.9/2 + 5 - 1, 5, 2, movieHeight*0.9); 
+  rect(movieWidth*0.4/2 + 5 - 1, 5, 2, movieHeight*0.4); 
   
-  // We declare a line "image" copied from actual video frame (center vertical line)
+  // We save central line of video in an image called "line"
   PImage line = myMovie.get(movieWidth/2, 0, 1, movieHeight);
   
-  // Start drawing in myCanvas
+  // We draw "line" in canvas, on position determined by lineIndex
   myCanvas.beginDraw();
-  
-  // Draw the copied line from video to myCanvas
   myCanvas.image(line, lineIndex, 0);
-  
-  // Finish drawing in myCanvas
   myCanvas.endDraw();
   
+  // Calculate the ratio between window and myCanvas to fit it
+  float ratio = float(width)/myCanvas.width;
   
-  // Display myCanvas in position 5, height/2
-  image(myCanvas, 5, height/2);
+  // We display "myCanvas" with ratio in order to fit it on window
+  image(myCanvas, 0, height/2, myCanvas.width * ratio, myCanvas.height * ratio);
   
-  // Draw a white rectangle to border image
-  stroke(255);
-  noFill();
-  rect(5, height/2, movieLength, movieHeight);
+  // We increment lineIndex
+  lineIndex++;
   
-  // Set red stroke and no fill
-  stroke(255,0,0);
-  noFill();
+  // We show information on screen about progression
+  float percentage = myMovie.time()/myMovie.duration();
+  fill(255);
+  textSize(14);
+  text(int(percentage * 100) + "% Completed", width/2, 50);
   
-  // Draw a red line from video line to image line
-  line(movieWidth*0.9/2 + 5 - 1, 5 + movieHeight*0.9, lineIndex + 5, movieHeight);
+  // If we reached the end, save result and exit
+  if (myMovie.time() >= myMovie.duration()) {
   
-  // Draw a rectangle to remark where the line is being drawn
-  rect(lineIndex + 5, movieHeight, 2, movieHeight); 
-  
-  
-  // If we have reached end of the video
-  if (lineIndex == movieLength) {
-  
-    // Save image result in data folder
-    myCanvas.save("data/ResultSlitScan.jpg");
-    
-    // Leave program
+    myCanvas.save("ResultSlitScan.jpg");
     exit();
-  }
-
   
+  }
 }
 
 // Called every time a new frame is available to read
 void movieEvent(Movie m) {
-
-  lineIndex++;
   m.read();
-
 }
