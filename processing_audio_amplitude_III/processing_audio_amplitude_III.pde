@@ -28,10 +28,10 @@ AudioPlayer groove;
 
 
 // Parameters for graphics
-float _angnoise, _radiusnoise;    // Parameters for angle and radius noise
-float _xnoise, _ynoise;           // Parameters for X/Y center noise
-float _angle = -PI/2;             // Initial angle in radians
-float _radius;                    // Radius
+float angnoise, radiusnoise;    // Parameters for angle and radius noise
+float xnoise, ynoise;           // Parameters for X/Y center noise
+float angle = -PI/2;             // Initial angle in radians
+float radius;                    // Radius
 color colorA, colorB;             // Limit colors
 float colorIndex, colorNoise;     // Parameters for color noise
 
@@ -53,10 +53,10 @@ void setup()
   // groove.loop();
 
   // Give initial random values for parameters:
-  _angnoise = random(10);
-  _radiusnoise = random(10);
-  _xnoise = random(10);
-  _ynoise = random(10);
+  angnoise = random(10);
+  radiusnoise = random(10);
+  xnoise = random(10);
+  ynoise = random(10);
   
   // Set color limits as red and black
   colorA = color(255, 0, 0);
@@ -74,34 +74,34 @@ void draw()
   rect(0,0,width,height);
   
   // Calculate a random radius using Perlin noise
-  _radiusnoise += 0.005;
-  _radius = (noise(_radiusnoise) * 550) + 1;
+  radiusnoise += 0.005;
+  radius = (noise(radiusnoise) * 550) + 1;
   // _radius = 550 * groove.mix.level();
   
   // Calculate a random angle using Perlin noise
-  _angnoise += 0.005;
-  _angle += (noise(_angnoise) * 6) -3;
+  angnoise += 0.005;
+  angle += (noise(angnoise) * 6) -3;
   
-  if (_angle > 360) _angle -= 360;
-  if (_angle < 0) _angle += 360;
+  if (angle > 360) angle -= 360;
+  if (angle < 0) angle += 360;
   
   // Calculate index for Perlin noise X/Y calculation
-  _xnoise += 0.01;
-  _ynoise += 0.01;
+  xnoise += 0.01;
+  ynoise += 0.01;
   
   // Calculate new centers randomly using Perlin noise
-  float centerX = width/2 + (noise(_xnoise) * 100) - 50;
-  float centerY = height/2 + (noise(_ynoise) * 100) - 50;
+  float centerX = width/2 + (noise(xnoise) * 100) - 50;
+  float centerY = height/2 + (noise(ynoise) * 100) - 50;
   
   // Calculate first point
-  float rad = radians(_angle);
-  float x1 = centerX + (_radius * cos(rad));
-  float y1 = centerY + (_radius * sin(rad));
+  float rad = radians(angle);
+  float x1 = centerX + (radius * cos(rad));
+  float y1 = centerY + (radius * sin(rad));
 
   // Calculate second point
   float opprad = rad + PI;
-  float x2 = centerX + (_radius * cos(opprad));
-  float y2 = centerY + (_radius * sin(opprad));
+  float x2 = centerX + (radius * cos(opprad));
+  float y2 = centerY + (radius * sin(opprad));
   
   // Calculate random color
   colorNoise += 0.003;

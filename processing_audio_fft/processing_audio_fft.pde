@@ -25,8 +25,8 @@ import ddf.minim.*;
 // We create an object of class Minim
 Minim       minim;
 
-// We create a jingle object of class AudioPlayer
-AudioPlayer jingle;
+// We create a AudioInput object to receive sound input from microphone
+AudioInput in;
 
 // We create a fft object of class FFT
 FFT         fft;
@@ -45,16 +45,14 @@ void setup()
   // specify that we want the audio buffers of the AudioPlayer
   // to be 1024 samples long because our FFT needs to have 
   // a power-of-two buffer size and this is a good size.
-  jingle = minim.loadFile("jingle.mp3", 1024);
+  in = minim.getLineIn();
   
-  // loop the file indefinitely
-  jingle.loop();
   
   // create an FFT object that has a time-domain buffer 
   // the same size as jingle's sample buffer
   // note that this needs to be a power of two 
   // and that it means the size of the spectrum will be half as large.
-  fft = new FFT( jingle.bufferSize(), jingle.sampleRate() );
+  fft = new FFT( in.bufferSize(), in.sampleRate() );
   
   colorMode(HSB);
   
@@ -67,7 +65,7 @@ void draw()
   
   // perform a forward FFT on the samples in jingle's mix buffer,
   // which contains the mix of both the left and right channels of the file
-  fft.forward( jingle.mix );
+  fft.forward( in.mix );
   
   float step = map(mouseX, 0, width, 1, 100);
   
