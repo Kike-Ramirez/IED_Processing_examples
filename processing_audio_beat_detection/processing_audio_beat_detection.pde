@@ -43,7 +43,8 @@ void setup()
   
   // a beat detection object song SOUND_FREQUENCY mode with a sensitivity of 10 milliseconds
   beat = new BeatDetect(song.bufferSize(), song.sampleRate());
-  
+
+
   // Initialize radius for circles
   ellipseMode(RADIUS);
   eRadiusHat = 20;
